@@ -25,6 +25,7 @@ class NuevoUsuario extends Fixture
         $plainPassword = '12345678';
         $user = new User();
         $user->setEmail($email);
+        $user->setNombre('Administrador'); // Campo nombre obligatorio
         $user->setRoles(['ROLE_USER', 'ROLE_ADMIN' ]);
         // Encriptación de la contraseña
         $hashed = $this->passwordHasher->hashPassword($user, $plainPassword);

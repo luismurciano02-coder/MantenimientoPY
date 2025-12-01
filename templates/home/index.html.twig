@@ -1,20 +1,380 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Dashboard - Sistema de Mantenimiento{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    body {
+        background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #0f3460 100%);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .dashboard-container {
+        padding: 30px 15px;
+    }
+    .stat-card {
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 2px solid rgba(37, 99, 235, 0.3);
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
+        border-color: rgba(37, 99, 235, 0.6);
+    }
+    .stat-icon {
+        font-size: 3rem;
+        margin-bottom: 10px;
+    }
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+    .stat-label {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .card-usuarios { 
+        background: linear-gradient(135deg, #1e3c72 0%, #2563eb 100%); 
+        color: white;
+    }
+    .card-facturas { 
+        background: linear-gradient(135deg, #16213e 0%, #0f3460 100%); 
+        color: white;
+    }
+    .card-provincias { 
+        background: linear-gradient(135deg, #0a1f44 0%, #1a73e8 100%); 
+        color: white;
+    }
+    .section-card {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        border: 2px solid rgba(37, 99, 235, 0.3);
+    }
+    .section-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 25px;
+        color: #ffffff;
+        border-bottom: 3px solid #2563eb;
+        padding-bottom: 10px;
+    }
+    .action-btn {
+        border-radius: 8px;
+        padding: 12px 25px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        border: none;
+        margin: 5px;
+    }
+    .btn-view { 
+        background: linear-gradient(135deg, #1e3c72 0%, #2563eb 100%); 
+        color: white;
+        border: 2px solid transparent;
+    }
+    .btn-view:hover { 
+        background: linear-gradient(135deg, #2563eb 0%, #1e3c72 100%); 
+        transform: scale(1.05); 
+        color: white;
+        border-color: #60a5fa;
+        box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+    }
+    .btn-edit { 
+        background: linear-gradient(135deg, #0f3460 0%, #1a73e8 100%); 
+        color: white;
+    }
+    .btn-edit:hover { 
+        background: linear-gradient(135deg, #1a73e8 0%, #0f3460 100%); 
+        transform: scale(1.05); 
+        color: white;
+        box-shadow: 0 5px 15px rgba(26, 115, 232, 0.4);
+    }
+    .btn-delete { 
+        background: linear-gradient(135deg, #1a1a2e 0%, #dc2626 100%); 
+        color: white;
+    }
+    .btn-delete:hover { 
+        background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); 
+        transform: scale(1.05); 
+        color: white;
+        box-shadow: 0 5px 15px rgba(220, 38, 38, 0.4);
+    }
+    .btn-new { 
+        background: linear-gradient(135deg, #059669 0%, #10b981 100%); 
+        color: white;
+    }
+    .btn-new:hover { 
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
+        transform: scale(1.05); 
+        color: white;
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+    }
+    .table-modern {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 10px;
+        overflow: hidden;
+        border: 2px solid rgba(37, 99, 235, 0.3);
+    }
+    .table-modern thead {
+        background: linear-gradient(135deg, #1e3c72 0%, #2563eb 100%);
+        color: white;
+    }
+    .table-modern tbody {
+        color: #e5e7eb;
+    }
+    .table-modern tbody tr {
+        border-bottom: 1px solid rgba(37, 99, 235, 0.2);
+    }
+    .table-modern tbody tr:hover {
+        background-color: rgba(37, 99, 235, 0.1);
+        transition: background-color 0.3s ease;
+    }
+    .header-dashboard {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        text-align: center;
+        border: 2px solid rgba(37, 99, 235, 0.4);
+    }
+    .header-dashboard h1 {
+        background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: bold;
+        margin: 0;
+    }
+    .text-muted {
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .badge.bg-primary {
+        background: linear-gradient(135deg, #1e3c72 0%, #2563eb 100%) !important;
+    }
+    .section-card p {
+        color: rgba(255, 255, 255, 0.7);
+    }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="dashboard-container">
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="header-dashboard">
+            <h1>🎯 Dashboard de Mantenimiento</h1>
+            <p class="text-muted mb-0">Panel de Control y Gestión</p>
+        </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/xampp/htdocs/mantenimientoPY/MantenimientoPY/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>C:/xampp/htdocs/mantenimientoPY/MantenimientoPY/templates/home/index.html.twig</code></li>
-    </ul>
+        <!-- Estadísticas -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="stat-card card-usuarios">
+                    <div class="text-center">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-number">{{ totalUsers }}</div>
+                        <div class="stat-label">Usuarios Registrados</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card card-facturas">
+                    <div class="text-center">
+                        <div class="stat-icon">📄</div>
+                        <div class="stat-number">{{ totalFacturas }}</div>
+                        <div class="stat-label">Facturas Registradas</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card card-provincias">
+                    <div class="text-center">
+                        <div class="stat-icon">🗺️</div>
+                        <div class="stat-number">{{ totalProvincias }}</div>
+                        <div class="stat-label">Provincias</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accesos Rápidos -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="section-card text-center">
+                    <h3 class="section-title">👥 Usuarios</h3>
+                    <p class="text-muted">Gestión de usuarios del sistema</p>
+                    <div class="d-grid gap-2">
+                        <a href="{{ path('app_user_index') }}" class="btn action-btn btn-view">
+                            <i class="bi bi-list-ul"></i> Ver Todos
+                        </a>
+                        <a href="{{ path('app_user_new') }}" class="btn action-btn btn-new">
+                            <i class="bi bi-plus-circle"></i> Nuevo Usuario
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="section-card text-center">
+                    <h3 class="section-title">📄 Facturas</h3>
+                    <p class="text-muted">Gestión de facturas</p>
+                    <div class="d-grid gap-2">
+                        <a href="{{ path('app_factura_index') }}" class="btn action-btn btn-view">
+                            <i class="bi bi-list-ul"></i> Ver Todas
+                        </a>
+                        <a href="{{ path('app_factura_new') }}" class="btn action-btn btn-new">
+                            <i class="bi bi-plus-circle"></i> Nueva Factura
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="section-card text-center">
+                    <h3 class="section-title">🗺️ Provincias</h3>
+                    <p class="text-muted">Gestión de provincias</p>
+                    <div class="d-grid gap-2">
+                        <a href="{{ path('app_provincia_index') }}" class="btn action-btn btn-view">
+                            <i class="bi bi-list-ul"></i> Ver Todas
+                        </a>
+                        <a href="{{ path('app_provincia_new') }}" class="btn action-btn btn-new">
+                            <i class="bi bi-plus-circle"></i> Nueva Provincia
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Últimos Usuarios -->
+        <div class="section-card">
+            <h3 class="section-title">👥 Últimos Usuarios Registrados</h3>
+            <div class="table-responsive">
+                <table class="table table-modern">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Roles</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in recentUsers %}
+                        <tr>
+                            <td><strong>#{{ user.id }}</strong></td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% for role in user.roles %}
+                                    <span class="badge bg-primary">{{ role }}</span>
+                                {% endfor %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-sm action-btn btn-view">
+                                    👁️ Ver
+                                </a>
+                                <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-sm action-btn btn-edit">
+                                    ✏️ Editar
+                                </a>
+                                <button onclick="confirmDelete('{{ path('app_user_delete', {'id': user.id}) }}')" class="btn btn-sm action-btn btn-delete">
+                                    🗑️ Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">No hay usuarios registrados</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Últimas Facturas -->
+        <div class="section-card">
+            <h3 class="section-title">📄 Últimas Facturas Registradas</h3>
+            <div class="table-responsive">
+                <table class="table table-modern">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Concepto</th>
+                            <th>Fecha</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for factura in recentFacturas %}
+                        <tr>
+                            <td><strong>#{{ factura.id }}</strong></td>
+                            <td>{{ factura.concepto|default('N/A') }}</td>
+                            <td>{{ factura.fecha|default('N/A') }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('app_factura_show', {'id': factura.id}) }}" class="btn btn-sm action-btn btn-view">
+                                    👁️ Ver
+                                </a>
+                                <a href="{{ path('app_factura_edit', {'id': factura.id}) }}" class="btn btn-sm action-btn btn-edit">
+                                    ✏️ Editar
+                                </a>
+                                <button onclick="confirmDelete('{{ path('app_factura_delete', {'id': factura.id}) }}')" class="btn btn-sm action-btn btn-delete">
+                                    🗑️ Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">No hay facturas registradas</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+function confirmDelete(deleteUrl) {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción no se puede deshacer",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Crear y enviar formulario para DELETE
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = deleteUrl;
+            
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = '_token';
+            csrfInput.value = '{{ csrf_token("delete") }}';
+            
+            const methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            methodInput.value = 'DELETE';
+            
+            form.appendChild(csrfInput);
+            form.appendChild(methodInput);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+}
+</script>
 {% endblock %}

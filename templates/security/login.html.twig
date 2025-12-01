@@ -1,38 +1,234 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Iniciar Sesión{% endblock %}
 
 {% block body %}
-    <form method="post">
+<style>
+    body {
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .login-container {
+        width: 100%;
+        max-width: 450px;
+        padding: 15px;
+    }
+    .login-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        padding: 50px 40px;
+        backdrop-filter: blur(10px);
+        animation: slideIn 0.5s ease-out;
+    }
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .login-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .login-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 2.5rem;
+        box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);
+    }
+    .login-title {
+        color: #1e3c72;
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0;
+    }
+    .login-subtitle {
+        color: #6c757d;
+        margin-top: 5px;
+    }
+    .form-floating {
+        margin-bottom: 20px;
+    }
+    .form-control {
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 12px 15px;
+        height: 55px;
+        transition: all 0.3s ease;
+    }
+    .form-control:focus {
+        border-color: #2a5298;
+        box-shadow: 0 0 0 0.2rem rgba(42, 82, 152, 0.25);
+    }
+    .form-label {
+        color: #495057;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+    .btn-login {
+        width: 100%;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: white;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .btn-login:hover {
+        background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(30, 60, 114, 0.4);
+    }
+    .alert {
+        border-radius: 10px;
+        border: none;
+        animation: shake 0.5s;
+    }
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-10px); }
+        75% { transform: translateX(10px); }
+    }
+    .remember-me {
+        display: flex;
+        align-items: center;
+        margin-top: 15px;
+    }
+    .remember-me input {
+        margin-right: 8px;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+    .remember-me label {
+        margin: 0;
+        cursor: pointer;
+        color: #495057;
+    }
+    .divider {
+        text-align: center;
+        margin: 25px 0;
+        position: relative;
+    }
+    .divider::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 1px;
+        background: #e0e0e0;
+    }
+    .divider span {
+        background: white;
+        padding: 0 15px;
+        position: relative;
+        color: #6c757d;
+    }
+    .logged-in-message {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-icon">🔐</div>
+            <h1 class="login-title">Bienvenido</h1>
+            <p class="login-subtitle">Inicia sesión en tu cuenta</p>
+        </div>
+
         {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="alert alert-danger" role="alert">
+                <strong>❌ Error:</strong> {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
         {% endif %}
 
         {% if app.user %}
-            <div class="mb-3">
-                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            <div class="logged-in-message">
+                <strong>✅ Ya estás conectado como:</strong> {{ app.user.userIdentifier }}
+                <br>
+                <a href="{{ path('app_logout') }}" class="text-white" style="text-decoration: underline;">Cerrar sesión</a>
             </div>
         {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
-
-        {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
-
-            <div class="checkbox mb-3">
-                <input type="checkbox" name="_remember_me" id="_remember_me">
-                <label for="_remember_me">Remember me</label>
+        <form method="post">
+            <div class="mb-3">
+                <label for="username" class="form-label">📧 Correo Electrónico</label>
+                <input type="email" 
+                       value="{{ last_username }}" 
+                       name="_username" 
+                       id="username" 
+                       class="form-control" 
+                       autocomplete="email" 
+                       placeholder="tu@email.com"
+                       required 
+                       autofocus>
             </div>
-        #}
 
-        <button class="btn btn-lg btn-primary" type="submit">
-            Sign in
-        </button>
-    </form>
+            <div class="mb-3">
+                <label for="password" class="form-label">🔑 Contraseña</label>
+                <input type="password" 
+                       name="_password" 
+                       id="password" 
+                       class="form-control" 
+                       autocomplete="current-password" 
+                       placeholder="Ingresa tu contraseña"
+                       required>
+            </div>
+
+            <div class="remember-me">
+                <input type="checkbox" name="_remember_me" id="_remember_me">
+                <label for="_remember_me">Recordarme</label>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button class="btn btn-login" type="submit">
+                Iniciar Sesión
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>Sistema de Mantenimiento</span>
+        </div>
+    </div>
+</div>
+
+<script>
+// Animación de entrada para los campos del formulario
+document.addEventListener('DOMContentLoaded', function() {
+    const inputs = document.querySelectorAll('.form-control');
+    inputs.forEach((input, index) => {
+        setTimeout(() => {
+            input.style.animation = 'slideIn 0.5s ease-out';
+        }, index * 100);
+    });
+});
+</script>
 {% endblock %}
