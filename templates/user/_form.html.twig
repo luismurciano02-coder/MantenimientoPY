@@ -1,4 +1,34 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'user-form'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.nombre) }}
+        {{ form_widget(form.nombre) }}
+        {{ form_errors(form.nombre) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.password) }}
+        {{ form_widget(form.password) }}
+        {{ form_help(form.password) }}
+        {{ form_errors(form.password) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.roles) }}
+        {{ form_widget(form.roles) }}
+        {{ form_errors(form.roles) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.provincias) }}
+        {{ form_widget(form.provincias) }}
+        {{ form_errors(form.provincias) }}
+    </div>
+
+    <button class="btn-custom btn-save" type="submit">{{ button_label|default('💾 Guardar') }}</button>
 {{ form_end(form) }}
