@@ -309,7 +309,7 @@
                         {% for factura in recentFacturas %}
                         <tr>
                             <td>{{ factura.concepto|default('N/A') }}</td>
-                            <td>{{ factura.fecha|default('N/A') }}</td>
+                            <td>{{ factura.fecha ? factura.fecha|date('d/m/Y H:i') : 'N/A' }}</td>
                             <td class="text-center">
                                 <a href="{{ path('app_factura_show', {'id': factura.id}) }}" class="btn btn-sm action-btn btn-view">
                                     👁️ Ver

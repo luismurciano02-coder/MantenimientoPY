@@ -154,6 +154,9 @@
         {{ include('factura/_form.html.twig', {'button_label': '💾 Crear Factura'}) }}
 
         <div class="action-buttons">
+            <a href="{{ path('app_home') }}" class="btn-custom btn-back">
+                🏠 Volver al Dashboard
+            </a>
             <a href="{{ path('app_factura_index') }}" class="btn-custom btn-back">
                 ⬅️ Volver al Listado
             </a>

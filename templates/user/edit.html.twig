@@ -272,6 +272,9 @@
         {{ include('user/_form.html.twig', {'button_label': '💾 Actualizar Usuario'}) }}
 
         <div class="action-buttons">
+            <a href="{{ path('app_home') }}" class="btn-custom btn-back">
+                🏠 Volver al Dashboard
+            </a>
             <a href="{{ path('app_user_index') }}" class="btn-custom btn-back">
                 ⬅️ Volver al Listado
             </a>
