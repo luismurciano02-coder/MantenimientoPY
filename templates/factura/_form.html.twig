@@ -1,4 +1,27 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'factura-form'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.concepto) }}
+        {{ form_widget(form.concepto) }}
+        {{ form_errors(form.concepto) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.fecha) }}
+        {{ form_widget(form.fecha) }}
+        {{ form_errors(form.fecha) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.importe) }}
+        {{ form_widget(form.importe) }}
+        {{ form_errors(form.importe) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.usuario) }}
+        {{ form_widget(form.usuario) }}
+        {{ form_errors(form.usuario) }}
+    </div>
+
+    <button class="btn-custom btn-save" type="submit">{{ button_label|default('💾 Guardar') }}</button>
 {{ form_end(form) }}

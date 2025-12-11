@@ -33,6 +33,9 @@ class UserType extends AbstractType
                 'mapped' => false,
                 'help' => 'Dejar en blanco para mantener la contraseña actual'
             ])
+            // GESTIÓN DE ROLES: Aquí se configuran y asignan los roles del usuario
+            // Los roles disponibles son: ROLE_USER, ROLE_ADMIN, ROLE_CLIENTE
+            // Se pueden seleccionar múltiples roles para cada usuario
             ->add('roles', ChoiceType::class, [
                 'label' => 'Roles',
                 'choices' => [
@@ -42,7 +45,8 @@ class UserType extends AbstractType
                 ],
                 'multiple' => true,
                 'expanded' => true,
-                'attr' => ['class' => 'form-check']
+                'attr' => ['class' => 'form-check'],
+                'help' => 'Seleccione uno o más roles para este usuario'
             ])
             ->add('provincias', EntityType::class, [
                 'class' => Provincia::class,

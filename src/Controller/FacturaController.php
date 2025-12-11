@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Factura;
+use App\Entity\User;
 use App\Form\FacturaType;
 use App\Repository\FacturaRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,15 +25,30 @@ final class FacturaController extends AbstractController
     }
 
     #[Route('/new', name: 'app_factura_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, UserRepository $userRepository): Response
     {
         $factura = new Factura();
+        
+        // Si viene un userId en la URL, pre-asignar el usuario
+        $userId = $request->query->get('userId');
+        if ($userId) {
+            $user = $userRepository->find($userId);
+            if ($user) {
+                $factura->setUsuario($user);
+            }
+        }
+        
         $form = $this->createForm(FacturaType::class, $factura);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($factura);
             $entityManager->flush();
+
+            // Si viene de la vista de usuario, redirigir allí
+            if ($userId && $factura->getUsuario()) {
+                return $this->redirectToRoute('app_user_show', ['id' => $factura->getUsuario()->getId()], Response::HTTP_SEE_OTHER);
+            }
 
             return $this->redirectToRoute('app_factura_index', [], Response::HTTP_SEE_OTHER);
         }

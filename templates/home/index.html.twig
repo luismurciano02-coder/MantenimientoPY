@@ -226,13 +226,10 @@
             <div class="col-md-4">
                 <div class="section-card text-center">
                     <h3 class="section-title">📄 Facturas</h3>
-                    <p class="text-muted">Gestión de facturas</p>
+                    <p class="text-muted">Gestión de facturas desde usuarios</p>
                     <div class="d-grid gap-2">
                         <a href="{{ path('app_factura_index') }}" class="btn action-btn btn-view">
                             <i class="bi bi-list-ul"></i> Ver Todas
-                        </a>
-                        <a href="{{ path('app_factura_new') }}" class="btn action-btn btn-new">
-                            <i class="bi bi-plus-circle"></i> Nueva Factura
                         </a>
                     </div>
                 </div>
@@ -260,7 +257,6 @@
                 <table class="table table-modern">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Email</th>
                             <th>Roles</th>
                             <th class="text-center">Acciones</th>
@@ -269,7 +265,6 @@
                     <tbody>
                         {% for user in recentUsers %}
                         <tr>
-                            <td><strong>#{{ user.id }}</strong></td>
                             <td>{{ user.email }}</td>
                             <td>
                                 {% for role in user.roles %}
@@ -290,7 +285,7 @@
                         </tr>
                         {% else %}
                         <tr>
-                            <td colspan="4" class="text-center text-muted">No hay usuarios registrados</td>
+                            <td colspan="3" class="text-center text-muted">No hay usuarios registrados</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -305,7 +300,6 @@
                 <table class="table table-modern">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Concepto</th>
                             <th>Fecha</th>
                             <th class="text-center">Acciones</th>
@@ -314,7 +308,6 @@
                     <tbody>
                         {% for factura in recentFacturas %}
                         <tr>
-                            <td><strong>#{{ factura.id }}</strong></td>
                             <td>{{ factura.concepto|default('N/A') }}</td>
                             <td>{{ factura.fecha|default('N/A') }}</td>
                             <td class="text-center">
@@ -331,7 +324,7 @@
                         </tr>
                         {% else %}
                         <tr>
-                            <td colspan="4" class="text-center text-muted">No hay facturas registradas</td>
+                            <td colspan="3" class="text-center text-muted">No hay facturas registradas</td>
                         </tr>
                         {% endfor %}
                     </tbody>

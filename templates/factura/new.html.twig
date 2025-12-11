@@ -1,11 +1,163 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Factura{% endblock %}
+{% block title %}Nueva Factura{% endblock %}
 
 {% block body %}
-    <h1>Create new Factura</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #0f3460 100%);
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px 0;
+    }
+    .container-custom {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    .page-header {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        border: 2px solid rgba(37, 99, 235, 0.4);
+        text-align: center;
+    }
+    .page-title {
+        margin: 0;
+        background: linear-gradient(90deg, #2563eb 0%, #60a5fa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: bold;
+        font-size: 2.5rem;
+    }
+    .form-card {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        border: 2px solid rgba(37, 99, 235, 0.3);
+        margin-bottom: 30px;
+    }
+    .form-label {
+        color: #ffffff;
+        font-weight: 600;
+        margin-bottom: 8px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .form-control {
+        background: rgba(26, 26, 46, 0.5);
+        border: 2px solid rgba(37, 99, 235, 0.3);
+        color: #ffffff;
+        border-radius: 8px;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+    .form-control:focus {
+        background: rgba(26, 26, 46, 0.8);
+        border-color: #2563eb;
+        color: #ffffff;
+        box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+    }
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+    .form-control option {
+        background: #ffffff;
+        color: #000000;
+    }
+    .form-control select option {
+        background: #ffffff;
+        color: #000000;
+    }
+    .form-text {
+        color: rgba(255, 255, 255, 0.6) !important;
+        font-size: 0.875rem;
+        margin-top: 5px;
+    }
+    .form-card input,
+    .form-card textarea {
+        color: #000000 !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+    }
+    .form-card label {
+        color: #ffffff !important;
+    }
+    .form-card select {
+        color: #000000 !important;
+        background: rgba(255, 255, 255, 0.9) !important;
+    }
+    .form-card select option {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+    .form-card input::placeholder,
+    .form-card textarea::placeholder {
+        color: rgba(0, 0, 0, 0.5) !important;
+    }
+    .form-card input[type="date"]::-webkit-calendar-picker-indicator,
+    .form-card input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+    .form-card input[type="time"]::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+    }
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+    }
+    .btn-custom {
+        padding: 12px 30px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+    }
+    .btn-back {
+        background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+        color: white;
+    }
+    .btn-back:hover {
+        background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+        transform: translateY(-2px);
+        color: white;
+    }
+    .btn-save {
+        background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        color: white;
+    }
+    .btn-save:hover {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+    }
+</style>
 
-    {{ include('factura/_form.html.twig') }}
+<div class="container-custom">
+    <div class="page-header">
+        <h1 class="page-title">📄 Crear Nueva Factura</h1>
+    </div>
 
-    <a href="{{ path('app_factura_index') }}">back to list</a>
+    <div class="form-card">
+        {{ include('factura/_form.html.twig', {'button_label': '💾 Crear Factura'}) }}
+
+        <div class="action-buttons">
+            <a href="{{ path('app_factura_index') }}" class="btn-custom btn-back">
+                ⬅️ Volver al Listado
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -63,6 +63,9 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         border: 2px solid rgba(37, 99, 235, 0.3);
     }
+    .table-responsive {
+        overflow-x: visible !important;
+    }
     .table-modern {
         width: 100%;
         border-collapse: separate;
@@ -206,7 +209,6 @@
             <table class="table-modern">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Roles</th>
@@ -217,7 +219,6 @@
                 <tbody>
                 {% for user in users %}
                     <tr>
-                        <td><strong>#{{ user.id }}</strong></td>
                         <td>{{ user.nombre }}</td>
                         <td>{{ user.email }}</td>
                         <td>

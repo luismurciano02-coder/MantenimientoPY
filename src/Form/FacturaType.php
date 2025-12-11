@@ -14,11 +14,14 @@ class FacturaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('concepto')
             ->add('fecha')
             ->add('importe')
             ->add('usuario', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'id',
+                'choice_label' => 'nombre',
+                'label' => 'Usuario',
+                'placeholder' => 'Seleccione un usuario',
             ])
         ;
     }

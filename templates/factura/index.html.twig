@@ -205,7 +205,6 @@
             <table class="table-modern">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Concepto</th>
                         <th>Fecha</th>
                         <th>Importe</th>
@@ -216,7 +215,6 @@
                 <tbody>
                 {% for factura in facturas %}
                     <tr>
-                        <td><strong>#{{ factura.id }}</strong></td>
                         <td>{{ factura.concepto|default('Sin concepto') }}</td>
                         <td>{{ factura.fecha ? factura.fecha|date('d/m/Y H:i') : 'N/A' }}</td>
                         <td><span class="badge badge-importe">{{ factura.importe ? factura.importe ~ '€' : 'N/A' }}</span></td>

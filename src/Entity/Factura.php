@@ -20,12 +20,27 @@ class Factura
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $importe = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $concepto = null;
+
     #[ORM\ManyToOne(inversedBy: 'facturas')]
     private ?User $usuario = null;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getConcepto(): ?string
+    {
+        return $this->concepto;
+    }
+
+    public function setConcepto(?string $concepto): static
+    {
+        $this->concepto = $concepto;
+
+        return $this;
     }
 
     public function getFecha(): ?\DateTime
