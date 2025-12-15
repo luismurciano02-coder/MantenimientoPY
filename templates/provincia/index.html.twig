@@ -194,9 +194,6 @@
     
     <div class="page-header">
         <h1 class="page-title">🗺️ Gestión de Provincias</h1>
-        <a href="{{ path('app_provincia_new') }}" class="btn-create">
-            ➕ Nueva Provincia
-        </a>
     </div>
 
     <div class="table-container">
@@ -223,9 +220,7 @@
                             <a href="{{ path('app_provincia_show', {'id': provincium.id}) }}" class="action-btn btn-show">
                                 👁️ Ver
                             </a>
-                            <a href="{{ path('app_provincia_edit', {'id': provincium.id}) }}" class="action-btn btn-edit">
-                                ✏️ Editar
-                            </a>
+                            
                             <button onclick="confirmDelete('{{ path('app_provincia_delete', {'id': provincium.id}) }}')" class="action-btn btn-delete">
                                 🗑️ Eliminar
                             </button>
